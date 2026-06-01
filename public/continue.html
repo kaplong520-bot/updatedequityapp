@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from airtelloans.netlify.app/continue.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 27 Jan 2026 07:24:01 GMT -->
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<!-- /Added by HTTrack -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="https://cdn.tailwindcss.com/"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .airtel-red {
+            background-color: #ce1e2d;
+        }
+        
+        .text-airtel-red {
+            color: #ce1e2d;
+        }
+        /* Sidebar Transition */
+        
+        #sidebar {
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(-100%);
+        }
+        
+        #sidebar.open {
+            transform: translateX(0);
+        }
+        
+        #overlay {
+            display: none;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        #overlay.show {
+            display: block;
+        }
+        
+        .browser-icon {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 min-h-screen flex flex-col text-gray-800 relative overflow-x-hidden">
+
+    <div id="overlay" class="fixed inset-0 z-40 transition-opacity"></div>
+    <aside id="sidebar" class="fixed top-0 left-0 h-full w-[85%] max-w-sm bg-gray-50 z-50 shadow-2xl flex flex-col">
+        <div class="airtel-red p-5 flex items-center gap-4 text-white">
+            <button id="closeMenu">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+            </button>
+            <span class="text-lg font-bold">Menu</span>
+        </div>
+
+        <div class="p-4 flex-grow">
+            <h3 class="text-gray-900 font-bold mb-4 px-2">App Settings</h3>
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="flex items-center justify-between p-4 border-b border-gray-100 active:bg-gray-50">
+                    <div class="flex items-center gap-4">
+                        <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-700"><i class="fa-solid fa-circle-question"></i></div>
+                        <span class="font-semibold text-gray-700">F.A.Q</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+                </div>
+                <div class="flex items-center justify-between p-4 border-b border-gray-100 active:bg-gray-50">
+                    <div class="flex items-center gap-4">
+                        <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-700"><i class="fa-solid fa-life-ring"></i></div>
+                        <span class="font-semibold text-gray-700">Help and Support</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+                </div>
+                <div class="flex items-center justify-between p-4 border-b border-gray-100 active:bg-gray-50">
+                    <div class="flex items-center gap-4">
+                        <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-700"><i class="fa-solid fa-bars-staggered"></i></div>
+                        <span class="font-semibold text-gray-700">Terms & Conditions</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+                </div>
+                <div class="flex items-center justify-between p-4 active:bg-gray-50">
+                    <div class="flex items-center gap-4">
+                        <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-700"><i class="fa-solid fa-flag"></i></div>
+                        <span class="font-semibold text-gray-700">About Us</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+                </div>
+            </div>
+        </div>
+        <div class="p-6 text-center text-gray-400 text-sm">Version 2.20.0</div>
+    </aside>
+
+    <div class="airtel-red text-white text-center py-2 text-[10px] font-bold uppercase tracking-wider">
+        Access to this page is FREE. No data usage!
+    </div>
+
+    <nav class="bg-white px-4 py-3 flex items-center justify-between shadow-sm border-b border-gray-50">
+        <div class="flex items-center gap-4">
+            <button id="menuBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+            <span class="font-bold text-lg">Guest</span>
+        </div>
+        <div class="w-10 h-10">
+            <img src="https://tse2.mm.bing.net/th/id/OIP.pms0xNKeoCXRZs-Ia3JwYAHaEK?pid=Api&amp;h=220&amp;P=0" class="w-full h-full object-contain" alt="Airtel">
+        </div>
+    </nav>
+
+    <main class="p-4 flex-grow">
+
+        <div class="grid grid-cols-2 gap-3 mb-6">
+            <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                <p class="text-sm font-bold text-gray-400 mb-1">Airtime</p>
+                <p class="text-xl font-black">XXXXX</p>
+                <p class="text-[10px] font-bold text-airtel-red uppercase">ZMW</p>
+                <button class="w-full airtel-red text-white text-[10px] font-extrabold py-3 rounded-lg mt-4 uppercase">Buy Airtime</button>
+            </div>
+            <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                <div class="flex justify-between mb-1">
+                    <p class="text-sm font-bold text-gray-400">Voice</p>
+                    <p class="text-sm font-bold text-gray-400">Data</p>
+                </div>
+                <div class="flex justify-between">
+                    <p class="text-xl font-black">XXX</p>
+                    <p class="text-xl font-black">XXXX</p>
+                </div>
+                <div class="flex justify-between">
+                    <p class="text-[10px] font-bold text-airtel-red uppercase">Mins</p>
+                    <p class="text-[10px] font-bold text-airtel-red uppercase">MB</p>
+                </div>
+                <button class="w-full airtel-red text-white text-[10px] font-extrabold py-3 rounded-lg mt-4 uppercase">Buy Bundles</button>
+            </div>
+        </div>
+
+        <div class="flex justify-center items-center gap-2 mb-8">
+            <span class="text-airtel-red font-bold text-sm">View All Balances</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-airtel-red" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
+            <div class="flex justify-between items-center mb-6">
+                <p class="text-sm font-bold text-gray-700">Airtel Money Balance</p>
+                <button class="border border-gray-300 rounded-md px-6 py-1.5 text-sm font-bold text-gray-800">View</button>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <button disabled class="border border-red-50 rounded-lg py-3.5 text-red-200 text-[11px] font-bold bg-white">Send Money</button>
+                <button disabled class="border border-red-50 rounded-lg py-3.5 text-red-200 text-[11px] font-bold bg-white">Withdraw Cash</button>
+                <button disabled class="border border-red-50 rounded-lg py-3.5 text-red-200 text-[11px] font-bold bg-white">Buy Goods</button>
+                <button disabled class="border border-red-50 rounded-lg py-3.5 text-red-200 text-[11px] font-bold bg-white">Pay Bills</button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-auto bg-white flex flex-col items-center justify-center p-6 text-center">
+        <p class="text-[11px] leading-relaxed text-gray-500 max-w-[280px] mb-6">
+            For the best experience, please use the following browsers and make sure your device are at least of <span class="font-bold text-gray-800">5.0 inches or above</span> in screen size.
+        </p>
+        <div class="flex items-center gap-4 px-4 mb-8">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Google_Chrome_icon_(February_2022).svg" class="browser-icon" alt="Chrome">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/52/Safari_browser_logo.svg" class="browser-icon" alt="Safari">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Opera_2015_icon.svg" class="browser-icon" alt="Opera">
+            <img src="https://play-lh.googleusercontent.com/WW5DkF_uytqj4_kY-YJJ0M8zoTqowXSjsSc_oUh08kyxPXuUCtYp_AUn37zGMPdevLbQ" class="browser-icon" alt="Samsung">
+            <img src="../cdn.awsde0-fusion.fds.api.mi-img.com/white-paper/privacy/appicon/mi-broswer7e98.png?GalaxyAccessKeyId=5151729087601&amp;Expires=9223372036854775807&amp;Signature=nNc/Q8KQOKQkcUtRxo+XXUQo3CU=" class="browser-icon" alt="Mi">
+            <img src="../baarazon.tech/wp-content/uploads/2023/12/phoenix-900x506.png" class="browser-icon" alt="Phoenix">
+        </div>
+        <div class="w-32 h-1 bg-gray-900 rounded-full opacity-90"></div>
+    </footer>
+
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const closeBtn = document.getElementById('closeMenu');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        function toggleMenu() {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('show');
+            document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : 'auto';
+        }
+
+        menuBtn.addEventListener('click', toggleMenu);
+        closeBtn.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu);
+    </script>
+</body>
+
+<!-- Mirrored from airtelloans.netlify.app/continue.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 27 Jan 2026 07:24:02 GMT -->
+
+</html>

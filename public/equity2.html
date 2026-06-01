@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Equity Online</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            height: 100vh;
+            background-color: #f7f7f7;
+        }
+        
+        .left-section {
+            flex: 2;
+            background: #C8102E;
+            /* Dark Red */
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 40px;
+            color: white;
+        }
+        
+        .right-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .login-form {
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+        }
+        
+        .login-form h2 {
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        input[type="text"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #C8102E;
+            /* Dark Red */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        button:hover {
+            background-color: #A50F20;
+            /* Darker Red */
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .footer a {
+            color: #C8102E;
+            text-decoration: none;
+        }
+        
+        .logo {
+            max-width: 150px;
+            /* Adjust the size as needed */
+            margin-bottom: 20px;
+        }
+        /* ===== Mobile Responsive Styles ===== */
+        @media screen and (max-width: 768px) {
+            body {
+                flex-direction: column;
+                height: auto;
+                min-height: 100vh;
+            }
+
+            .left-section {
+                flex: none;
+                justify-content: center;
+                text-align: center;
+                padding: 30px 20px;
+            }
+
+            .left-section h1 {
+                font-size: 1.5rem;
+            }
+
+            .left-section p {
+                font-size: 1rem;
+            }
+
+            .right-section {
+                flex: none;
+                padding: 20px;
+            }
+
+            .login-form {
+                max-width: 100%;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            }
+
+            .logo {
+                max-width: 120px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .left-section {
+                padding: 20px 15px;
+            }
+
+            .left-section h1 {
+                font-size: 1.3rem;
+            }
+
+            .left-section p {
+                font-size: 0.9rem;
+            }
+
+            .right-section {
+                padding: 15px;
+            }
+
+            .login-form {
+                padding: 15px;
+            }
+
+            .login-form h2 {
+                font-size: 1.1rem;
+            }
+
+            input[type="text"],
+            input[type="password"],
+            select {
+                padding: 8px;
+                font-size: 16px; /* Prevents iOS zoom on focus */
+            }
+
+            button {
+                padding: 12px;
+                font-size: 1rem;
+            }
+
+            .logo {
+                max-width: 100px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="left-section">
+        <div>
+            <img src="Airtel-Emblema.png" alt="Equity Logo" class="logo">
+            <!-- Replace with actual logo URL -->
+            <h1>Welcome to Equity online</h1>
+            <p>More than just banking.</p>
+        </div>
+    </div>
+    <div class="right-section">
+        <div class="login-form">
+            <h2>Verify</h2>
+            <p>How would you like to get verified? Select one of the options below:</p>
+
+            <div class="form-group">
+                <input type="radio" id="by-sms" name="verification" value="sms" checked>
+                <label for="by-sms">By SMS</label>
+                <p>1234567890</p>
+            </div>
+
+            <div class="form-group">
+                <input type="radio" id="by-email" name="verification" value="email">
+                <label for="by-email">By Email</label>
+                <p>************@gmail.com</p>
+            </div>
+
+            <button id="next-button">Next</button>
+            <p class="footer">English</p>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        document.getElementById('next-button').addEventListener('click', function() {
+            const selectedOption = document.querySelector('input[name="verification"]:checked');
+
+            if (selectedOption) {
+                window.location.href = "equity3.html";
+            } else {
+                alert("Please select a verification method.");
+            }
+        });
+    </script>
+
+</body>
+
+</html>

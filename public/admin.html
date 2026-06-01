@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+</head>
+
+<body>
+    <h1>Admin Panel</h1>
+    <form id="admin-form">
+        <div>
+            <label for="question1">Question 1:</label>
+            <input type="text" id="question1" placeholder="Your first question" required>
+        </div>
+        <div>
+            <label for="question2">Question 2:</label>
+            <input type="text" id="question2" placeholder="Your second question" required>
+        </div>
+        <button type="submit">Save Questions</button>
+    </form>
+
+    <script>
+        document.getElementById('admin-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const question1 = document.getElementById('question1').value.trim();
+            const question2 = document.getElementById('question2').value.trim();
+
+            // Store questions in local storage
+            localStorage.setItem('question1', question1);
+            localStorage.setItem('question2', question2);
+
+            alert('Questions saved!');
+        });
+    </script>
+</body>
+
+</html>
